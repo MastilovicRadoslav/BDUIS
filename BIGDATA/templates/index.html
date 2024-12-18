@@ -4,32 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predikcija solarne energije</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Predikcija solarne energije</h1>
-        <form method="POST" action="/"> 
-            <button type="submit">Sat</button>
-        </form>
-        <form method="POST" action="/predict/daily"> 
-            <button type="submit">Dan</button>
-        </form>
-        <form method="POST" action="/predict/monthly"> 
-            <button type="submit">Mesec</button>
-        </form>
+    <div class="container mt-5">
+        <!-- Naslov sekcija -->
+        <div class="text-center mb-4">
+            <h1 class="display-4 text-primary font-weight-bold">Predikcija solarne energije</h1>
+        </div>
+        
+        <!-- Dugmad za izbor intervala -->
+        <div class="text-center mb-4">
+            <form method="POST" action="/" class="d-inline">
+                <button type="submit" class="btn btn-info btn-lg mx-2">Sat</button>
+            </form>
+            <form method="POST" action="/predict/daily" class="d-inline">
+                <button type="submit" class="btn btn-info btn-lg mx-2">Dan</button>
+            </form>
+            <form method="POST" action="/predict/monthly" class="d-inline">
+                <button type="submit" class="btn btn-info btn-lg mx-2">Mesec</button>
+            </form>
+        </div>
 
         {% if result %}
-        <h2>Rezultati predikcije</h2>
-        <ul>
-            <li>Lokacija 1 - proizvodnja: {{ result['location_1'] }} kWh</li>
-            <li>Lokacija 2 - proizvodnja: {{ result['location_2'] }} kWh</li>
-            <li>Lokacija 3 - proizvodnja: {{ result['location_3'] }} kWh</li>
-            <li>Ukupna - proizvodnja (sabiranje): {{ result['sum_total'] }} kWh</li>
-            <li>Ukupna - proizvodnja (novi model): {{ result['model_total'] }} kWh</li>
-        </ul>
-        {{ chart_html | safe }}
+        <!-- Rezultati predikcije -->
+        <div class="card shadow p-4 mb-5 bg-white rounded">
+            <h2 class="text-success text-center mb-4">Rezultati predikcije</h2>
+            <ul class="list-group list-group-flush text-center">
+                <li class="list-group-item">Lokacija 1 - proizvodnja: <strong>{{ result['location_1'] }} kWh</strong></li>
+                <li class="list-group-item">Lokacija 2 - proizvodnja: <strong>{{ result['location_2'] }} kWh</strong></li>
+                <li class="list-group-item">Lokacija 3 - proizvodnja: <strong>{{ result['location_3'] }} kWh</strong></li>
+                <li class="list-group-item font-weight-bold text-primary">Ukupna proizvodnja: {{ result['total_production'] }} kWh</li>
+            </ul>
+        </div>
+
+        <!-- Graf za predikciju po lokacijama -->
+        <div class="chart mb-5">
+            {{ chart_html | safe }}
+        </div>
+
+        <!-- Grafovi za uticaj parametara -->
+        <div class="card shadow p-4 mb-5 bg-white rounded">
+            <h3 class="text-info text-center">Uticaj parametara - Lokacija 1</h3>
+            <div class="chart mb-3">
+                {{ feature_importance_htmls[0] | safe }}
+            </div>
+
+            <h3 class="text-info text-center">Uticaj parametara - Lokacija 2</h3>
+            <div class="chart mb-3">
+                {{ feature_importance_htmls[1] | safe }}
+            </div>
+
+            <h3 class="text-info text-center">Uticaj parametara - Lokacija 3</h3>
+            <div class="chart mb-3">
+                {{ feature_importance_htmls[2] | safe }}
+            </div>
+
+            <h3 class="text-info text-center">Uticaj parametara - Ukupna proizvodnja</h3>
+            <div class="chart">
+                {{ feature_importance_htmls[3] | safe }}
+            </div>
+        </div>
         {% endif %}
     </div>
+
+    <!-- Bootstrap JS i jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
