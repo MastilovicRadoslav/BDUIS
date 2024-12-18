@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predikcija solarne energije</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Predikcija solarne energije</h1>
+        <form method="POST" action="/"> 
+            <button type="submit">Sat</button>
+        </form>
+        <form method="POST" action="/predict/daily"> 
+            <button type="submit">Dan</button>
+        </form>
+        <form method="POST" action="/predict/monthly"> 
+            <button type="submit">Mesec</button>
+        </form>
+
+        {% if result %}
+        <h2>Rezultati predikcije</h2>
+        <ul>
+            <li>Lokacija 1 - proizvodnja: {{ result['location_1'] }} kWh</li>
+            <li>Lokacija 2 - proizvodnja: {{ result['location_2'] }} kWh</li>
+            <li>Lokacija 3 - proizvodnja: {{ result['location_3'] }} kWh</li>
+            <li>Ukupna - proizvodnja (sabiranje): {{ result['sum_total'] }} kWh</li>
+            <li>Ukupna - proizvodnja (novi model): {{ result['model_total'] }} kWh</li>
+        </ul>
+        {{ chart_html | safe }}
+        {% endif %}
+    </div>
+</body>
+</html>
