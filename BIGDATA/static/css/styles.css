@@ -1,42 +1,53 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
+    background-color: #e6f7ff; /* Svetlo plava nijansa */
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
-h1 {
-    color: #2c3e50;
-    margin-top: 20px;
+h1, h2, h3 {
+    font-family: 'Helvetica', sans-serif;
 }
 
-button {
+.chart {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-info {
     background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    border-color: #2980b9;
 }
 
-button:hover {
+.btn-info:hover {
     background-color: #2980b9;
+    border-color: #2471a3;
 }
 
-h2 {
-    color: #27ae60;
+.list-group-item {
+    font-size: 1.2em;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
+.card {
+    border: none;
+    background-color: #fefefe;
 }
 
-li {
-    margin: 10px;
-    font-size: 18px;
+.text-primary {
+    color: #2c3e50 !important;
+}
+
+.text-success {
+    color: #27ae60 !important;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
