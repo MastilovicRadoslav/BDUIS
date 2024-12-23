@@ -9,26 +9,31 @@
 </head>
 <body>
     <div class="container mt-5">
-        <!-- Naslov sekcija -->
         <div class="text-center mb-4">
             <h1 class="display-4 text-primary font-weight-bold">Predikcija solarne energije</h1>
         </div>
         
-        <!-- Dugmad za izbor intervala -->
         <div class="text-center mb-4">
             <form method="POST" action="/" class="d-inline">
-                <button type="submit" class="btn btn-info btn-lg mx-2">Sat</button>
+                <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'hourly' %}btn-active{% endif %}">
+                    Sat
+                </button>
             </form>
             <form method="POST" action="/predict/daily" class="d-inline">
-                <button type="submit" class="btn btn-info btn-lg mx-2">Dan</button>
+                <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'daily' %}btn-active{% endif %}">
+                    Dan
+                </button>
             </form>
             <form method="POST" action="/predict/monthly" class="d-inline">
-                <button type="submit" class="btn btn-info btn-lg mx-2">Mesec</button>
+                <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'monthly' %}btn-active{% endif %}">
+                    Mesec
+                </button>
             </form>
         </div>
+        
+        
 
         {% if result %}
-        <!-- Rezultati predikcije -->
         <div class="card shadow p-4 mb-5 bg-white rounded">
             <h2 class="text-success text-center mb-4">Rezultati predikcije</h2>
             <ul class="list-group list-group-flush text-center">
@@ -39,12 +44,10 @@
             </ul>
         </div>
 
-        <!-- Graf za predikciju po lokacijama -->
         <div class="chart mb-5">
             {{ chart_html | safe }}
         </div>
 
-        <!-- Grafovi za uticaj parametara -->
         <div class="card shadow p-4 mb-5 bg-white rounded">
             <h3 class="text-info text-center">Uticaj parametara - Lokacija 1</h3>
             <div class="chart mb-3">
@@ -69,7 +72,6 @@
         {% endif %}
     </div>
 
-    <!-- Bootstrap JS i jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
