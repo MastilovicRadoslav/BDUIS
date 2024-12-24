@@ -10,6 +10,7 @@ app = Flask(__name__)
 # Ovaj deo se izvršava jednom pri pokretanju aplikacije
 X, _ = load_and_preprocess_data('dataset/Data_Cacak.csv')
 
+#Generisanje grafa za predikciju proizvodnje
 def generate_chart(predictions, selected_total, label):
     """
     Kreira unapređeni bar graf za predikcije po lokacijama i ukupnu proizvodnju.
@@ -49,7 +50,7 @@ def generate_chart(predictions, selected_total, label):
         mode='lines+text',
         name='Prosečna proizvodnja',
         line=dict(color='orange', dash='dash'),
-        text=[f"Prosečna predikcija za proizvodnju: {average_prediction:.2f} kWh"],  # Tekst na liniji
+        text=[f"Prosek: {average_prediction:.2f} kWh"],  # Tekst na liniji
         textposition="top center"  # Pozicija teksta
     ))
 
@@ -74,7 +75,7 @@ def generate_chart(predictions, selected_total, label):
     return fig.to_html(full_html=False)
 
 
-
+#Generisanje grafa za uticaj parametara na proizvodnju
 def generate_feature_importance_chart(importances, feature_names, title):
     """
     Generiše graf važnosti parametara sa procentima, sortiranjem i unapređenjima:
@@ -121,7 +122,10 @@ def generate_feature_importance_chart(importances, feature_names, title):
         title=title,
         xaxis_title="Parametri (sortirani)",
         yaxis_title="Važnost parametara (%)",
-        yaxis=dict(ticksuffix='%'),
+        yaxis=dict(
+            ticksuffix='%', 
+            range=[0, sorted_importances.max() * 1.2]  # Proširuje opseg y-osi za 20% iznad najveće vrednosti
+        ),
         xaxis=dict(tickangle=45)  # Rotacija oznaka na X-osi za bolju čitljivost
     )
 
@@ -129,12 +133,10 @@ def generate_feature_importance_chart(importances, feature_names, title):
 
 
 
+#Glavna ruta za predikcije. Obrada intervala (sat, dan, mesec).
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/predict/<interval>', methods=['GET', 'POST'])
 def predict(interval="hourly"):
-    """
-    Glavna ruta za predikcije. Obrada intervala (sat, dan, mesec).
-    """
     result = None
     chart_html = ""
     feature_importance_htmls = []
@@ -204,6 +206,68 @@ def predict(interval="hourly"):
         feature_importance_htmls=feature_importance_htmls,
         interval_class=interval_class
     )
+
+#Dugme za dodavanje novog mjerenja
+@app.route('/add', methods=['GET', 'POST'])
+def add_data():
+    if request.method == 'POST':
+        try:
+            # Učitavanje unosa iz forme
+            datetime = request.form['datetime']
+            air_temp = float(request.form['air_temp'])
+            cloud_opacity = float(request.form['cloud_opacity'])
+            dhi = float(request.form['dhi'])
+            dni = float(request.form['dni'])
+            ebh = float(request.form['ebh'])
+            ghi = float(request.form['ghi'])
+            prod_loc1 = float(request.form['prod_loc1'])
+            prod_loc2 = float(request.form['prod_loc2'])
+            prod_loc3 = float(request.form['prod_loc3'])
+
+            # Validacija unosa
+            # Datum i vreme (proverava ispravan format)
+            try:
+                pd.to_datetime(datetime, format='%m/%d/%Y %H:%M')
+            except ValueError:
+                raise ValueError("Datum i vreme moraju biti u formatu MM/DD/YYYY HH:MM.")
+            # Temperatura vazduha
+            if air_temp < -50 or air_temp > 50:
+                raise ValueError("Temperatura mora biti između -50 i 50 stepeni.")
+            # Oblačnost
+            if cloud_opacity < 0 or cloud_opacity > 100:
+                raise ValueError("Oblačnost mora biti između 0% i 100%.")
+            # DHI
+            if dhi < 0:
+                raise ValueError("DHI mora biti pozitivan broj.")
+            # DNI
+            if dni < 0:
+                raise ValueError("DNI mora biti pozitivan broj.")
+            # EBH
+            if ebh < 0:
+                raise ValueError("EBH mora biti pozitivan broj.")
+            # GHI
+            if ghi < 0:
+                raise ValueError("GHI mora biti pozitivan broj.")
+            # Proizvodnja - Lokacija 1
+            if prod_loc1 < 0:
+                raise ValueError("Proizvodnja za Lokaciju 1 mora biti pozitivan broj.")
+            # Proizvodnja - Lokacija 2
+            if prod_loc2 < 0:
+                raise ValueError("Proizvodnja za Lokaciju 2 mora biti pozitivan broj.")
+            # Proizvodnja - Lokacija 3
+            if prod_loc3 < 0:
+                raise ValueError("Proizvodnja za Lokaciju 3 mora biti pozitivan broj.")
+            # Dodavanje validiranih podataka u CSV
+            with open('dataset/Data_Cacak.csv', 'a') as f:
+                f.write(f"{datetime},{air_temp},{cloud_opacity},{dhi},{dni},{ebh},{ghi},{prod_loc1},{prod_loc2},{prod_loc3}\n")
+
+            return "Podaci su uspešno dodati!"
+
+        except Exception as e:
+            return f"Greška: {e}"
+
+    return render_template('add_data.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
