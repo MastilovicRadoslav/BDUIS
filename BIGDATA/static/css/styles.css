@@ -1,3 +1,4 @@
+/* Opšti stilovi za telo stranice */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #e6f7ff; /* Svetlo plava nijansa */
@@ -6,14 +7,17 @@ body {
     padding: 0;
 }
 
+/* Stilovi za glavne naslove */
 h1, h2, h3 {
     font-family: 'Helvetica', sans-serif;
 }
 
+/* Animacija za naslov */
 h1 {
     animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Ključne faze animacije za pojavljivanje */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -25,6 +29,7 @@ h1 {
     }
 }
 
+/* Stilovi za grafove */
 .chart {
     border: 1px solid #ddd;
     padding: 20px;
@@ -34,44 +39,53 @@ h1 {
     transition: transform 0.2s ease-in-out;
 }
 
+/* Efekat skaliranja grafova na hover */
 .chart:hover {
     transform: scale(1.02);
 }
 
+/* Stilovi za dugmad tipa info */
 .btn-info {
     background-color: #3498db;
     border-color: #2980b9;
 }
 
+/* Stilovi za dugmad tipa info na hover */
 .btn-info:hover {
     background-color: #2980b9;
     border-color: #2471a3;
 }
 
+/* Fokus stilovi za dugmad tipa info */
 .btn-info:focus {
     outline: none;
     box-shadow: 0px 0px 5px 2px rgba(52, 152, 219, 0.75);
 }
 
+/* Stilovi za stavke liste */
 .list-group-item {
     font-size: 1.2em;
     margin-bottom: 10px;
     padding: 15px;
 }
 
+/* Stilovi za kartice */
 .card {
     border: none;
     background-color: #f9fafb;
 }
 
+/* Plava boja za primarne tekstove */
 .text-primary {
     color: #0056b3 !important;
 }
 
+/* Zelena boja za uspešne tekstove */
 .text-success {
     color: #27ae60 !important;
 }
 
+/* Stilovi za glavni okvir stranice */
 .container {
     background-color: #ffffff;
     padding: 30px;
@@ -79,6 +93,7 @@ h1 {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Stilovi za manje ekrane */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -94,12 +109,14 @@ h1 {
     }
 }
 
+/* Stilovi za aktivno dugme */
 .btn-active {
     background-color: #2ecc71; /* Svetlo zelena za aktivno dugme */
     border-color: #27ae60; /* Tamnija zelena za obrub */
     color: white; /* Bela boja teksta */
 }
 
+/* Stilovi za aktivno dugme na hover */
 .btn-active:hover {
     background-color: #27ae60; /* Još tamnija zelena za hover efekat */
     border-color: #229954;
