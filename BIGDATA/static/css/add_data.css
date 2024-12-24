@@ -107,3 +107,61 @@ button:focus {
         padding: 10px;
     }
 }
+
+/* Stil za prikaz poruka o uspehu */
+.alert-success {
+    background-color: #d4edda; /* Svetlo zelena pozadina */
+    color: #155724; /* Tamno zelena boja teksta */
+    border: 1px solid #c3e6cb; /* Zelena ivica */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* Stil za prikaz poruka o grešci */
+.alert-danger {
+    background-color: #f8d7da; /* Svetlo crvena pozadina */
+    color: #721c24; /* Tamno crvena boja teksta */
+    border: 1px solid #f5c6cb; /* Crvena ivica */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* Stil za poruke unutar forme */
+.alert {
+    animation: fadeIn 1s ease-in-out; /* Animacija pojavljivanja poruke */
+}
+
+/* Animacija za poruke */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Početna pozicija iznad */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Povratak na osnovnu poziciju */
+    }
+}
+
+/* Dugme za povratak */
+a.btn-primary {
+    background-color: #3498db; /* Plava boja */
+    color: white;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+/* Hover efekat za dugme za povratak */
+a.btn-primary:hover {
+    background-color: #2980b9; /* Tamnija plava boja */
+    transform: scale(1.02); /* Blago povećanje */
+}
