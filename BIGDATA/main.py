@@ -3,6 +3,9 @@ from models.train_model import (model_location_1, model_location_2, model_locati
 from models.data_preprocessing import load_and_preprocess_data
 import pandas as pd
 import plotly.graph_objects as go
+import os
+import sys
+
 
 app = Flask(__name__)
 
@@ -210,6 +213,9 @@ def predict(interval="hourly"):
 #Dugme za dodavanje novog mjerenja
 @app.route('/add', methods=['GET', 'POST'])
 def add_data():
+    success_message = None
+    error_message = None
+
     if request.method == 'POST':
         try:
             # Učitavanje unosa iz forme
@@ -225,48 +231,29 @@ def add_data():
             prod_loc3 = float(request.form['prod_loc3'])
 
             # Validacija unosa
-            # Datum i vreme (proverava ispravan format)
-            try:
-                pd.to_datetime(datetime, format='%m/%d/%Y %H:%M')
-            except ValueError:
-                raise ValueError("Datum i vreme moraju biti u formatu MM/DD/YYYY HH:MM.")
-            # Temperatura vazduha
+            if not datetime.strip():
+                raise ValueError("Datum i vreme ne mogu biti prazni.")
+
             if air_temp < -50 or air_temp > 50:
                 raise ValueError("Temperatura mora biti između -50 i 50 stepeni.")
-            # Oblačnost
             if cloud_opacity < 0 or cloud_opacity > 100:
                 raise ValueError("Oblačnost mora biti između 0% i 100%.")
-            # DHI
-            if dhi < 0:
-                raise ValueError("DHI mora biti pozitivan broj.")
-            # DNI
-            if dni < 0:
-                raise ValueError("DNI mora biti pozitivan broj.")
-            # EBH
-            if ebh < 0:
-                raise ValueError("EBH mora biti pozitivan broj.")
-            # GHI
-            if ghi < 0:
-                raise ValueError("GHI mora biti pozitivan broj.")
-            # Proizvodnja - Lokacija 1
-            if prod_loc1 < 0:
-                raise ValueError("Proizvodnja za Lokaciju 1 mora biti pozitivan broj.")
-            # Proizvodnja - Lokacija 2
-            if prod_loc2 < 0:
-                raise ValueError("Proizvodnja za Lokaciju 2 mora biti pozitivan broj.")
-            # Proizvodnja - Lokacija 3
-            if prod_loc3 < 0:
-                raise ValueError("Proizvodnja za Lokaciju 3 mora biti pozitivan broj.")
+            if dhi <= 0 or dni <= 0 or ebh <= 0 or ghi <= 0 or prod_loc1 <= 0 or prod_loc2 <= 0 or prod_loc3 <= 0:
+                raise ValueError("Sve vrednosti moraju biti pozitivni brojevi ili nula.")
+
             # Dodavanje validiranih podataka u CSV
             with open('dataset/Data_Cacak.csv', 'a') as f:
                 f.write(f"{datetime},{air_temp},{cloud_opacity},{dhi},{dni},{ebh},{ghi},{prod_loc1},{prod_loc2},{prod_loc3}\n")
 
-            return "Podaci su uspešno dodati!"
+            success_message = "Podaci su uspešno dodati"
+            
+            # Ponovno učitavanje modula
+            os.execv(sys.executable, ['python'] + sys.argv)
 
         except Exception as e:
-            return f"Greška: {e}"
+            error_message = f"Greška: {e}"
 
-    return render_template('add_data.html')
+    return render_template('add_data.html', success_message=success_message, error_message=error_message)
 
 
 if __name__ == "__main__":
