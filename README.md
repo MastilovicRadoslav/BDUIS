@@ -2,17 +2,14 @@
 
 ## Opis projekta
 **BDUIS** je aplikacija razvijena za predikciju proizvodnje solarne energije na tri različite lokacije, koristeći vremenske podatke i solarne parametre.  
-Aplikacija omogućava korisnicima da analiziraju satne, dnevne i mesečne predikcije, vizualizuju uticaj različitih parametara, kao i da dodaju nove podatke u postojeći skup podataka.
+Aplikacija omogućava korisnicima da analiziraju **satne** predikcije proizvodnje (predikcija za dan i mjesec je uklonjena jer nema dovoljno podataka za analizu), vizualizuju uticaj različitih parametara, kao i da dodaju nove podatke u postojeći skup podataka.
 
 ---
 
 ## Funkcionalnosti
 
 ### 1. **Predikcija proizvodnje solarne energije**
-- Korisnici mogu birati interval predikcije:
-  - **Sat**
-  - **Dan**
-  - **Mesec**
+- Korisnici mogu birati **satni interval** predikcije.
 - Predikcije su prikazane u vidu interaktivnih grafova sa procentualnim prikazom doprinosa svake lokacije.
 - Prosečna vrednost proizvodnje za lokacije prikazana je kao linija na grafu.
 
@@ -45,6 +42,7 @@ Aplikacija omogućava korisnicima da analiziraju satne, dnevne i mesečne predik
 
 ## Instalacija
 1. Klonirajte repozitorijum:
+   ```bash
    git clone https://github.com/MastilovicRadoslav/BDUIS.git
 2. Pređite u direktorijum projekta:
    cd BDUIS
@@ -67,7 +65,7 @@ Aplikacija omogućava korisnicima da analiziraju satne, dnevne i mesečne predik
 # Uputstvo za korišćenje
 
 ## Početna stranica
-1. Izaberite interval za predikciju (*Sat*, *Dan*, *Mesec*).
+1. Izaberite interval za predikciju (*Sat*)
 2. Vizualizujte rezultate kroz grafove i liste.
 
 ## Dodavanje novih podataka
@@ -78,7 +76,7 @@ Aplikacija omogućava korisnicima da analiziraju satne, dnevne i mesečne predik
 ## Primeri korišćenja
 
 ### Primer predikcije
-1. Izaberite interval **Mesec**.
+1. Izaberite interval **Sat**.
 2. Pregledajte predikciju proizvodnje za svaku lokaciju i ukupnu vrednost.
 3. Analizirajte graf važnosti parametara.
 
@@ -96,8 +94,6 @@ Aplikacija omogućava korisnicima da analiziraju satne, dnevne i mesečne predik
 - Poboljšana analitika kroz dodatne metrike i vizualizacije.
 
 ## Video demonstracija 
-(Ažuriranje Data_Cacak.csv i ponovno učitavanje-treniranje modela je automatizovano posle ovog videa, sve ostalo je isto)
-
 Pogledajte demonstraciju aplikacije: [YouTube](https:https://www.youtube.com/watch?v=jIpKy8Na2_g&ab_channel=%D0%A0%D0%B0%D0%B4%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%9C%D0%B0%D1%81%D1%82%D0%B8%D0%BB%D0%BE%D0%B2%D0%B8%D1%9B)
 
 ## Licenca
