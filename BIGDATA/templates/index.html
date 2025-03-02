@@ -14,19 +14,10 @@
         </div>
         
         <div class="text-center mb-4">
+            <!-- Ostavljen je samo dugme za satnu predikciju -->
             <form method="POST" action="/" class="d-inline">
                 <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'hourly' %}btn-active{% endif %}">
                     Sat
-                </button>
-            </form>
-            <form method="POST" action="/predict/daily" class="d-inline">
-                <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'daily' %}btn-active{% endif %}">
-                    Dan
-                </button>
-            </form>
-            <form method="POST" action="/predict/monthly" class="d-inline">
-                <button type="submit" class="btn btn-info btn-lg mx-2 {% if interval_class == 'monthly' %}btn-active{% endif %}">
-                    Mesec
                 </button>
             </form>
         </div>
@@ -35,9 +26,6 @@
         <div class="text-center mb-4">
             <a href="/add" class="btn btn-warning btn-lg">Dodaj nove podatke</a>
         </div>
-        
-        
-        
 
         {% if result %}
         <div class="card shadow p-4 mb-5 bg-white rounded">

@@ -13,7 +13,7 @@ app = Flask(__name__)
 # Ovaj deo se izvršava jednom pri pokretanju aplikacije
 X, _ = load_and_preprocess_data('dataset/Data_Cacak.csv')
 
-#Generisanje grafa za predikciju proizvodnje
+# Generisanje grafa za predikciju proizvodnje
 def generate_chart(predictions, selected_total, label):
     """
     Kreira unapređeni bar graf za predikcije po lokacijama i ukupnu proizvodnju.
@@ -78,7 +78,7 @@ def generate_chart(predictions, selected_total, label):
     return fig.to_html(full_html=False)
 
 
-#Generisanje grafa za uticaj parametara na proizvodnju
+# Generisanje grafa za uticaj parametara na proizvodnju
 def generate_feature_importance_chart(importances, feature_names, title):
     """
     Generiše graf važnosti parametara sa procentima, sortiranjem i unapređenjima:
@@ -135,10 +135,9 @@ def generate_feature_importance_chart(importances, feature_names, title):
     return fig.to_html(full_html=False)
 
 
-
-#Glavna ruta za predikcije. Obrada intervala (sat, dan, mesec).
+# Glavna ruta za predikcije. Obrada intervala (sat)
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/predict/<interval>', methods=['GET', 'POST'])
+@app.route('/predict/hourly', methods=['GET', 'POST'])
 def predict(interval="hourly"):
     result = None
     chart_html = ""
@@ -154,21 +153,10 @@ def predict(interval="hourly"):
             # Izračunavanje predikcija
             predictions = [model.predict(input_data)[0] for model in models]
             
-            # Obrada na osnovu izabranog intervala
-            if interval == "hourly":
-                selected_predictions = predictions
-                selected_total = sum(predictions)
-                label = "Ukupno - satna predikcija"
-            elif interval == "daily":
-                selected_predictions = [p * 24 for p in predictions]  # 24 sata
-                selected_total = sum(selected_predictions)
-                label = "Ukupno - dnevna predikcija"
-            elif interval == "monthly":
-                selected_predictions = [p * 24 * 30 for p in predictions]  # 30 dana
-                selected_total = sum(selected_predictions)
-                label = "Ukupno - mesečna predikcija"
-            else:
-                raise ValueError("Nepoznat interval")
+            # Obrada na osnovu izabranog intervala (samo satni interval)
+            selected_predictions = predictions
+            selected_total = sum(predictions)
+            label = "Ukupno - satna predikcija"
 
             # Rezultati predikcije za prikaz
             result = {
@@ -210,7 +198,8 @@ def predict(interval="hourly"):
         interval_class=interval_class
     )
 
-#Dugme za dodavanje novog mjerenja
+
+# Dugme za dodavanje novog mjerenja
 @app.route('/add', methods=['GET', 'POST'])
 def add_data():
     success_message = None
