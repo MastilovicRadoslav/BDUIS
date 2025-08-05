@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from models.train_model import (model_location_1, model_location_2, model_location_3)
 from models.data_preprocessing import load_and_preprocess_data
 import pandas as pd
@@ -145,7 +145,10 @@ def predict(interval="hourly"):
     interval_class = interval  # Klasa za stilizaciju aktivnog dugmeta
 
     if request.method == 'POST':
+        X, _ = load_and_preprocess_data('dataset/Data_Cacak.csv')
+
         try:
+            
             # Priprema ulaznih podataka za modele
             input_data = pd.DataFrame([X.iloc[-1].tolist()], columns=X.columns)
             models = [model_location_1, model_location_2, model_location_3]
@@ -234,10 +237,8 @@ def add_data():
             with open('dataset/Data_Cacak.csv', 'a') as f:
                 f.write(f"{datetime},{air_temp},{cloud_opacity},{dhi},{dni},{ebh},{ghi},{prod_loc1},{prod_loc2},{prod_loc3}\n")
 
-            success_message = "Podaci su uspešno dodati"
-            
-            # Ponovno učitavanje modula
-            os.execv(sys.executable, ['python'] + sys.argv)
+            return redirect(url_for('predict'))
+
 
         except Exception as e:
             error_message = f"Greška: {e}"
