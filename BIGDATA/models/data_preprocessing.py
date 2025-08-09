@@ -13,8 +13,6 @@ def load_and_preprocess_data(filepath):
     # Priprema podataka (konverzija u numeričke vrednosti i uklanjanje nedostajućih podataka)
     data = prepare_input_data(data)
 
-    # Uklanjanje redova sa nedostajućim vrednostima
-    data = data.dropna()
     print("Dimenzije posle uklanjanja nedostajućih vrednosti:", data.shape)  # Prikaz dimenzija nakon čišćenja
 
     # Razdvajanje ulaznih podataka (X) i ciljeva (y)

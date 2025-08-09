@@ -6,12 +6,7 @@ import plotly.graph_objects as go
 import os
 import sys
 
-
 app = Flask(__name__)
-
-# Učitavanje i priprema podataka
-# Ovaj deo se izvršava jednom pri pokretanju aplikacije
-X, _ = load_and_preprocess_data('dataset/Data_Cacak.csv')
 
 # Generisanje grafa za predikciju proizvodnje
 def generate_chart(predictions, selected_total, label):
@@ -145,12 +140,13 @@ def predict(interval="hourly"):
     interval_class = interval  # Klasa za stilizaciju aktivnog dugmeta
 
     if request.method == 'POST':
+        # Svaki put učitavamo podatke jer korisnik može dodati novi red (mjerenje)
         X, _ = load_and_preprocess_data('dataset/Data_Cacak.csv')
 
         try:
             
             # Priprema ulaznih podataka za modele
-            input_data = pd.DataFrame([X.iloc[-1].tolist()], columns=X.columns)
+            input_data = pd.DataFrame([X.iloc[-1].tolist()], columns=X.columns) #Napraviti jedan novi red podataka (kao DataFrame) koji se može dati modelu za predikciju
             models = [model_location_1, model_location_2, model_location_3]
 
             # Izračunavanje predikcija
